@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EcoRadar</title>
+    <style>
+        /* ============================================
+           CSS - Design System (Mesmo do Registro)
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Cores do tema */
+            --color-bg: #ffffff;
+            --color-text: #000000;
+            --color-primary: #22c55e;
+            --color-primary-dark: #16a34a;
+            --color-primary-hover: #15803d;
+            --color-error: #dc2626;
+            --color-error-bg: #fef2f2;
+            --color-success: #16a34a;
+            --color-success-bg: #f0fdf4;
+            --color-border: #000000;
+            --color-gray: #6b7280;
+            --color-light-gray: #f3f4f6;
+            
+            /* Espaçamento */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 2.5rem;
+            
+            /* Bordas */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            
+            /* Sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-focus: 0 0 0 3px rgba(34, 197, 94, 0.2);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #575757;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-lg);
+            line-height: 1.5;
+        }
+
+        /* Container principal com animação de entrada */
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--color-bg);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header do formulário */
+        .form-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .logo {
+            width: 78px;
+            height: 78px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-md);
+            font-size: 28px;
+        }
+
+        .form-title {
+            color: var(--color-text);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .form-subtitle {
+            color: var(--color-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Grupos de formulário */
+        .form-group {
+            margin-bottom: var(--space-lg);
+            position: relative;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--color-text);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .required-badge {
+            color: var(--color-error);
+            font-size: 0.75rem;
+        }
+
+        /* Container do input com ícone */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            padding-right: 2.5rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--color-gray);
+            opacity: 0.6;
+        }
+
+        .form-input:hover {
+            border-color: var(--color-gray);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-focus);
+        }
+
+        /* Estados de validação */
+        .form-input.valid {
+            border-color: var(--color-success);
+            background-color: var(--color-success-bg);
+        }
+
+        .form-input.invalid {
+            border-color: var(--color-error);
+            background-color: var(--color-error-bg);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Ícones de validação */
+        .input-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .form-input.valid ~ .input-icon.valid,
+        .form-input.invalid ~ .input-icon.invalid {
+            opacity: 1;
+        }
+
+        /* Toggle de visibilidade da senha */
+        .password-toggle {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            color: var(--color-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: var(--color-text);
+        }
+
+        /* Mensagens de erro */
+        .error-message {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--color-error);
+            font-size: 0.8125rem;
+            margin-top: var(--space-sm);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            min-height: 0;
+        }
+
+        .error-message.show {
+            opacity: 1;
+            transform: translateY(0);
+            min-height: 1.25rem;
+        }
+
+        /* Opções adicionais (Lembrar-me / Esqueci senha) */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            cursor: pointer;
+            color: var(--color-text);
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .forgot-password {
+            color: var(--color-primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Botão principal */
+        .btn-primary {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background-color: var(--color-primary);
+            color: white;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Spinner de loading */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        .btn-primary.loading .spinner {
+            display: block;
+        }
+
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mensagem de erro global */
+        .alert-error {
+            display: none;
+            background-color: var(--color-error-bg);
+            border: 2px solid var(--color-error);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+            color: var(--color-error);
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .alert-error.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        /* Link de registro */
+        .form-footer {
+            text-align: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--color-light-gray);
+            font-size: 0.875rem;
+            color: var(--color-gray);
+        }
+
+        .form-footer a {
+            color: var(--color-primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Skip link para acessibilidade */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--color-text);
+            color: var(--color-bg);
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            body {
+                padding: var(--space-md);
+                align-items: flex-start;
+                padding-top: var(--space-xl);
+            }
+
+            .form-container {
+                padding: var(--space-xl);
+                border: none;
+                box-shadow: none;
+            }
+
+            .form-title {
+                font-size: 1.25rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: var(--space-sm);
+                align-items: flex-start;
+            }
+        }
+
+        /* Redução de movimento para acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Foco visível para navegação por teclado */
+        .form-input:focus-visible,
+        .btn-primary:focus-visible,
+        .password-toggle:focus-visible,
+        .remember-me:focus-visible,
+        .forgot-password:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+    
+    <main id="main-content" class="form-container">
+        <header class="form-header">
+           <div class="logo"><img src="img/logotipoecoradar.svg" alt=""></div>
+            <h1 class="form-title">Bem-vindo de volta</h1>
+            <p class="form-subtitle">Entre na sua conta do EcoRadar</p>
+        </header>
+
+        <!-- Alerta de erro global -->
+        <div class="alert-error" id="globalError" role="alert" aria-live="assertive"></div>
+        
+        <form id="loginForm" novalidate aria-label="Formulário de login">
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email" class="form-label">
+                    Email
+                    <span class="required-badge" aria-label="obrigatório">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input"
+                        placeholder="seu@email.com"
+                        autocomplete="email"
+                        aria-required="true"
+                        aria-describedby="email-error"
+                    >
+                    <svg class="input-icon valid" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <svg class="input-icon invalid" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <span class="error-message" id="email-error" role="alert"></span>
+            </div>
+
+            <!-- Senha -->
+            <div class="form-group">
+                <label for="password" class="form-label">
+                    Senha
+                    <span class="required-badge" aria-label="obrigatório">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        aria-required="true"
+                        aria-describedby="password-error"
+                    >
+                    <button type="button" class="password-toggle" id="togglePassword" aria-label="Mostrar senha">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" id="eyeIcon">
+                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" id="eyeOffIcon" style="display: none;">
+                            <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.464 1.465a2.003 2.003 0 012.45 2.45l1.464 1.463a4 4 0 00-5.303-5.303zm6.687 8.103L14.586 15A4 4 0 019.414 9.828l-1.464-1.464A6 6 0 0010 18c2.28 0 4.323-.99 5.656-2.656z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+                <span class="error-message" id="password-error" role="alert"></span>
+            </div>
+
+            <!-- Opções: Lembrar-me / Esqueci senha -->
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <span>Lembrar-me</span>
+                </label>
+                <a href="senha.html" class="forgot-password">Esqueceu a senha?</a>
+            </div>
+
+            <!-- Botão de Entrar -->
+            <button type="submit" class="btn-primary" id="submitBtn">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="btn-text">Entrar</span>
+            </button>
+        </form>
+
+        <footer class="form-footer">
+            Ainda não tem uma conta? <a href="registro.html">Criar conta</a>
+        </footer>
+    </main>
+
+    <script>
+        /* ============================================
+           JavaScript - Validação de Login
+           ============================================ */
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementos do DOM
+            const form = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submitBtn');
+            const globalError = document.getElementById('globalError');
+            const togglePassword = document.getElementById('togglePassword');
+            
+            // Estado do formulário
+            const formState = {
+                touched: new Set(),
+                valid: new Set()
+            };
+
+            // Regex para validação
+            const patterns = {
+                email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            };
+
+            // ==========================================
+            // Funções de Validação
+            // ==========================================
+
+            const validators = {
+                email: (value) => {
+                    if (!value.trim()) return { valid: false, message: 'Email é obrigatório' };
+                    if (!patterns.email.test(value)) return { valid: false, message: 'Digite um email válido' };
+                    return { valid: true };
+                },
+
+                password: (value) => {
+                    if (!value) return { valid: false, message: 'Senha é obrigatória' };
+                    if (value.length < 6) return { valid: false, message: 'Senha deve ter pelo menos 6 caracteres' };
+                    return { valid: true };
+                }
+            };
+
+            // ==========================================
+            // UI Helpers
+            // ==========================================
+
+            function showFieldError(input, message) {
+                const errorEl = document.getElementById(`${input.id}-error`);
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                input.setAttribute('aria-invalid', 'true');
+                errorEl.textContent = message;
+                errorEl.classList.add('show');
+            }
+
+            function clearFieldError(input) {
+                const errorEl = document.getElementById(`${input.id}-error`);
+                input.classList.remove('invalid');
+                input.setAttribute('aria-invalid', 'false');
+                errorEl.textContent = '';
+                errorEl.classList.remove('show');
+            }
+
+            function showValid(input) {
+                clearFieldError(input);
+                input.classList.add('valid');
+                formState.valid.add(input.id);
+            }
+
+            function clearValid(input) {
+                input.classList.remove('valid');
+                formState.valid.delete(input.id);
+            }
+
+            function showGlobalError(message) {
+                globalError.textContent = message;
+                globalError.classList.add('show');
+                globalError.focus();
+            }
+
+            function hideGlobalError() {
+                globalError.classList.remove('show');
+                globalError.textContent = '';
+            }
+
+            // ==========================================
+            // Validação de Campos
+            // ==========================================
+
+            function validateField(input) {
+                const validator = validators[input.id];
+                if (!validator) return true;
+
+                const result = validator(input.value);
+                
+                if (!result.valid) {
+                    showFieldError(input, result.message);
+                    clearValid(input);
+                    return false;
+                } else {
+                    showValid(input);
+                    return true;
+                }
+            }
+
+            function validateAll() {
+                const isEmailValid = validateField(emailInput);
+                const isPasswordValid = validateField(passwordInput);
+                return isEmailValid && isPasswordValid;
+            }
+
+            // ==========================================
+            // Event Listeners
+            // ==========================================
+
+            // Validação em blur
+            [emailInput, passwordInput].forEach(input => {
+                input.addEventListener('blur', () => {
+                    formState.touched.add(input.id);
+                    validateField(input);
+                });
+
+                // Validação em tempo real após primeiro blur
+                input.addEventListener('input', () => {
+                    hideGlobalError();
+                    if (formState.touched.has(input.id)) {
+                        validateField(input);
+                    }
+                });
+            });
+
+            // Toggle visibilidade da senha
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                document.getElementById('eyeIcon').style.display = type === 'password' ? 'block' : 'none';
+                document.getElementById('eyeOffIcon').style.display = type === 'password' ? 'none' : 'block';
+                
+                togglePassword.setAttribute('aria-label', 
+                    type === 'password' ? 'Mostrar senha' : 'Ocultar senha'
+                );
+            });
+
+            // Submissão do formulário
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                hideGlobalError();
+
+                // Marca todos como touched
+                formState.touched.add('email');
+                formState.touched.add('password');
+
+                if (!validateAll()) {
+                    const firstInvalid = form.querySelector('.invalid');
+                    if (firstInvalid) {
+                        firstInvalid.focus();
+                    }
+                    return;
+                }
+
+                // Estado de loading
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+
+                // Simula chamada à API
+                try {
+                    const result = await simulateLogin({
+                        email: emailInput.value.trim().toLowerCase(),
+                        password: passwordInput.value,
+                        remember: document.getElementById('remember').checked
+                    });
+
+                    if (result.success) {
+                        // Redireciona ou atualiza a página
+                        console.log('Login bem-sucedido:', result);
+                        // window.location.href = '/dashboard';
+                    } else {
+                        showGlobalError(result.message || 'Email ou senha incorretos');
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                        clearValid(passwordInput);
+                    }
+                } catch (error) {
+                    showGlobalError('Erro ao conectar. Tente novamente mais tarde.');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                }
+            });
+
+            // Simulação de API de login
+            function simulateLogin(credentials) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        // Simulação: aceita qualquer email válido com senha "123456"
+                        if (credentials.password === '123456') {
+                            resolve({
+                                success: true,
+                                token: 'fake-jwt-token',
+                                user: {
+                                    email: credentials.email,
+                                    name: 'Usuário Teste'
+                                }
+                            });
+                        } else {
+                            resolve({
+                                success: false,
+                                message: 'Email ou senha incorretos'
+                            });
+                        }
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
