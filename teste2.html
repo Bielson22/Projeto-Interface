@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EcoRadar - Sustentabilidade e Educação</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#200f06",
+                        "primary": "#b3d262",
+                        "on-surface": "#ffdbcb",
+                        "surface-container": "#2e1b11",
+                        "surface-container-high": "#3a251b",
+                        "tertiary-container": "#ff7740",
+                        "on-primary": "#273500",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Epilogue', sans-serif; }
+        .content-section { transition: opacity 0.3s ease-in-out; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #b3d262;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+
+<header class="fixed top-0 w-full z-50 mt-2 flex justify-center px-4">
+    <div class="w-full max-w-5xl bg-[#4b3429]/90 backdrop-blur-xl flex items-center justify-between px-6 h-16 rounded-full shadow-2xl border border-white/5">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('home')">
+            <span class="material-symbols-outlined text-primary text-3xl">eco</span>
+            <h1 class="text-2xl font-black text-primary uppercase tracking-tighter">EcoRadar</h1>
+        </div>
+        <nav class="hidden md:flex gap-6 items-center font-bold text-sm tracking-tight">
+            <button onclick="showSection('home')" class="nav-btn text-primary">Home</button>
+            <button onclick="showSection('tips')" class="nav-btn text-white/70 hover:text-primary transition">Dicas</button>
+            <button onclick="showSection('reports')" class="nav-btn text-white/70 hover:text-primary transition">Denúncias</button>
+            <button onclick="showSection('calc')" class="nav-btn text-white/70 hover:text-primary transition">Calculadora</button>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow pt-28 pb-32 px-4 max-w-5xl mx-auto w-full">
+    
+    <section id="home" class="content-section space-y-8">
+        <div class="relative rounded-[2.5rem] overflow-hidden min-h-[400px] flex items-end p-8 bg-surface-container-low group shadow-xl">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=1200" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-1000" alt="Nature">
+            <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent"></div>
+            <div class="relative z-10 max-w-2xl">
+                <h2 class="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4">EcoRadar 🌍</h2>
+                <p class="text-lg opacity-90 mb-8">Conectando cidadãos à preservação ambiental. Transforme dados em ação e monitore seu impacto.</p>
+                <button onclick="showSection('calc')" class="bg-primary text-on-primary px-10 py-4 rounded-2xl font-black text-lg hover:brightness-110 active:scale-95 transition-all shadow-lg">
+                    Começar Agora
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div onclick="showSection('tips')" class="bg-surface-container p-8 rounded-[2rem] hover:bg-surface-container-high transition-all cursor-pointer group border border-white/5">
+                <span class="material-symbols-outlined text-primary text-4xl mb-4" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+                <h3 class="text-2xl font-bold mb-2">Dicas</h3>
+                <p class="text-xs opacity-60">Pequenas mudanças para grandes impactos sustentáveis.</p>
+            </div>
+            
+            <div onclick="showSection('reports')" class="bg-surface-container p-8 rounded-[2rem] hover:bg-surface-container-high transition-all cursor-pointer group border border-white/5">
+                <span class="material-symbols-outlined text-tertiary-container text-4xl mb-4">report_problem</span>
+                <h3 class="text-2xl font-bold mb-2">Denúncias</h3>
+                <p class="text-xs opacity-60">Fiscalize irregularidades ambientais na sua região.</p>
+            </div>
+
+            <div onclick="showSection('calc')" class="bg-surface-container p-8 rounded-[2rem] hover:bg-surface-container-high transition-all cursor-pointer group border border-white/5 overflow-hidden">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-sky-400 text-4xl">cloud</span>
+                    <span class="text-[10px] font-bold text-sky-400 bg-sky-400/10 px-2 py-0.5 rounded uppercase">Ativo</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Monitor O2</h3>
+                <p class="text-xs opacity-60">Calcule sua pegada e monitore níveis atmosféricos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tips" class="content-section hidden space-y-8">
+        <h2 class="text-4xl font-black text-primary">Dicas Sustentáveis</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-surface-container p-8 rounded-3xl border-l-4 border-primary">
+                <h3 class="text-xl font-bold mb-2 text-primary">Consumo de Água</h3>
+                <p class="opacity-80 text-sm">Diminuir 5 minutos do banho economiza até 90 litros de água. O planeta agradece.</p>
+            </div>
+            <div class="bg-surface-container p-8 rounded-3xl border-l-4 border-primary">
+                <h3 class="text-xl font-bold mb-2 text-primary">Resíduos Sólidos</h3>
+                <p class="opacity-80 text-sm">A reciclagem de uma única lata de alumínio economiza energia suficiente para manter uma TV ligada por 3 horas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="reports" class="content-section hidden space-y-8">
+        <h2 class="text-4xl font-black text-tertiary-container">Canal de Denúncias</h2>
+        <div class="bg-surface-container p-8 rounded-[2.5rem] max-w-2xl border border-white/5 shadow-2xl">
+            <form class="space-y-4">
+                <input type="text" placeholder="Localização do incidente" class="w-full bg-surface/50 border-none rounded-xl p-4 text-white">
+                <select class="w-full bg-surface/50 border-none rounded-xl p-4 text-white">
+                    <option>Desmatamento</option>
+                    <option>Queimada</option>
+                    <option>Poluição de Rio</option>
+                </select>
+                <textarea placeholder="Relate o ocorrido..." class="w-full bg-surface/50 border-none rounded-xl p-4 text-white" rows="4"></textarea>
+                <button type="button" class="w-full bg-tertiary-container text-white py-4 rounded-xl font-black uppercase shadow-lg">Enviar Denúncia</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="calc" class="content-section hidden space-y-8 max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-black text-primary">Monitor Atmosférico</h2>
+            <p class="opacity-70">Ajuste os dados para simular sua pegada ambiental.</p>
+        </div>
+        
+        <div class="bg-surface-container p-6 md:p-10 rounded-[3rem] shadow-2xl border border-white/5 grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="space-y-8">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label class="font-bold text-sm uppercase">Transporte (km/mês)</label>
+                        <span id="label-km" class="text-primary font-black">100 km</span>
+                    </div>
+                    <input type="range" id="in-km" min="0" max="1500" value="100" class="w-full h-2 bg-surface rounded-lg appearance-none cursor-pointer">
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label class="font-bold text-sm uppercase">Energia (kWh/mês)</label>
+                        <span id="label-power" class="text-primary font-black">150 kWh</span>
+                    </div>
+                    <input type="range" id="in-power" min="0" max="800" value="150" class="w-full h-2 bg-surface rounded-lg appearance-none cursor-pointer">
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl italic text-xs opacity-60">
+                    * Simulação baseada na emissão de dióxido de carbono por fonte de consumo.
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-center items-center bg-black/40 rounded-[2rem] p-8 border border-white/5 relative">
+                <span class="text-[10px] font-black uppercase tracking-widest opacity-40">Emissão Estimada</span>
+                <div class="text-6xl font-black text-primary my-2" id="res-co2">0.0</div>
+                <span class="text-sm font-bold opacity-70 mb-6 uppercase">kg CO₂ / mês</span>
+                
+                <div class="w-full space-y-2">
+                    <div class="flex justify-between text-[10px] font-bold uppercase">
+                        <span>Pureza do Ar</span>
+                        <span id="status-text" class="text-primary tracking-widest">Ótima</span>
+                    </div>
+                    <div class="w-full h-3 bg-surface rounded-full overflow-hidden">
+                        <div id="bar-o2" class="h-full bg-primary transition-all duration-700" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-[#4b3429]/95 backdrop-blur-xl h-16 rounded-full flex justify-around items-center px-4 shadow-2xl z-50 border border-white/10">
+    <button onclick="showSection('home')" class="text-white/40 hover:text-primary"><span class="material-symbols-outlined">home</span></button>
+    <button onclick="showSection('tips')" class="text-white/40 hover:text-primary"><span class="material-symbols-outlined">lightbulb</span></button>
+    <button onclick="showSection('reports')" class="text-white/40 hover:text-primary"><span class="material-symbols-outlined">report_problem</span></button>
+    <button onclick="showSection('calc')" class="text-white/40 hover:text-primary"><span class="material-symbols-outlined">calculate</span></button>
+</nav>
+
+<script>
+    function showSection(id) {
+        document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('text-primary');
+            btn.classList.add('text-white/70');
+            if(btn.innerText.toLowerCase() === id || (id==='calc' && btn.innerText==='Calculadora')) {
+                btn.classList.add('text-primary');
+            }
+        });
+        window.scrollTo(0, 0);
+    }
+
+    // CALCULADORA FUNCIONAL
+    const inKm = document.getElementById('in-km');
+    const inPower = document.getElementById('in-power');
+    const labKm = document.getElementById('label-km');
+    const labPower = document.getElementById('label-power');
+    const resCo2 = document.getElementById('res-co2');
+    const barO2 = document.getElementById('bar-o2');
+    const statusText = document.getElementById('status-text');
+
+    function update() {
+        const km = parseInt(inKm.value);
+        const pwr = parseInt(inPower.value);
+        
+        labKm.innerText = km + ' km';
+        labPower.innerText = pwr + ' kWh';
+
+        // Cálculo: km * 0.15 (emissão carro médio) + pwr * 0.45 (matriz energética)
+        const total = (km * 0.15) + (pwr * 0.45);
+        resCo2.innerText = total.toFixed(1);
+
+        // Barra de pureza (inversa ao impacto)
+        let pureza = 100 - (total / 6);
+        if(pureza < 10) pureza = 10;
+
+        barO2.style.width = pureza + '%';
+
+        if(pureza > 70) {
+            barO2.style.backgroundColor = '#b3d262';
+            statusText.innerText = 'Ótima';
+            statusText.className = 'text-primary tracking-widest';
+        } else if (pureza > 40) {
+            barO2.style.backgroundColor = '#facc15';
+            statusText.innerText = 'Moderada';
+            statusText.className = 'text-yellow-400 tracking-widest';
+        } else {
+            barO2.style.backgroundColor = '#ef4444';
+            statusText.innerText = 'Crítica';
+            statusText.className = 'text-red-500 tracking-widest';
+        }
+    }
+
+    inKm.addEventListener('input', update);
+    inPower.addEventListener('input', update);
+
+    window.onload = () => {
+        showSection('home');
+        update();
+    };
+</script>
+
+</body>
+</html>
